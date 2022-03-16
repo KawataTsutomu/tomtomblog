@@ -1,37 +1,40 @@
 <template>
   <div>
-    <h1>tomtomblog</h1>
-    <div v-for="(item,key) in items" :key="key">
-      <nuxt-link :to="'article/' + item.id">
-        <h2>{{ item.title }}</h2>
+      <h1>{{ item.title }}</h1>
+      <div class="line-numbers language-js" v-html="$md.render(item.content)"></div>
+      <nuxt-link :to="'/'">
+        <h2>戻る</h2>
       </nuxt-link>
-    </div>
   </div>
 </template>
 
 <script>
 import axios from "axios";
+import Prism from '~/plugins/prism.js'
+
 export default {
   data() {
     return {
       items: []
     };
   },
-  // 記事一覧のJSONをmicroCMSより取得
-  async asyncData() {
+  mounted() {
+    Prism.highlightAll()
+  },
+  async asyncData({ params }) {
     const { data } = await axios.get(
-      "https://tomtomblog.microcms.io/api/v1/article",
+      `https://tomtomblog.microcms.io/api/v1/article/${params.id}`,
       {
         headers: { "X-MICROCMS-API-KEY": process.env.API_KEY }
       }
     );
     return {
-      items: data.contents
+      item: data
     };
-  }
-}
-</script>
+  },
 
+};
+</script>
 <style>
   h1 {
     display: block;
@@ -40,13 +43,5 @@ export default {
     font-weight: bold;
     border-top: solid 3px #364e96;
     border-bottom: solid 3px #364e96;
-  }
-  h2 {
-    display: block;
-    font-size: 1.6em;
-    text-align: center;
-    font-weight: bold;
-    border: solid #ddd;
-    border-width: 0 0 1px 0;
   }
 </style>
