@@ -1,7 +1,7 @@
 <template>
   <div>
       <h1>{{ item.title }}</h1>
-      <div v-html="$md.render(item.content)"></div>
+      <div class="line-numbers language-js" v-html="$md.render(item.content)"></div>
       <nuxt-link :to="'/'">
         <h2>戻る</h2>
       </nuxt-link>
@@ -10,12 +10,16 @@
 
 <script>
 import axios from "axios";
+import Prism from '~/plugins/prism.js'
 
 export default {
   data() {
     return {
       items: []
     };
+  },
+  mounted() {
+    Prism.highlightAll()
   },
   async asyncData({ params }) {
     const { data } = await axios.get(
@@ -27,7 +31,8 @@ export default {
     return {
       item: data
     };
-  }
+  },
+
 };
 </script>
 <style>
