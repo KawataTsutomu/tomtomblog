@@ -1,12 +1,14 @@
 <template>
-  <div>
-    <h1>tomtomblog</h1>
-    <div v-for="(item,key) in items" :key="key">
-      <nuxt-link :to="'article/' + item.id">
-        <h2>{{ item.title }}</h2>
-      </nuxt-link>
-    </div>
-  </div>
+  <v-app>
+    <Header />
+      <v-main>
+        <div v-for="(item,key) in items" :key="key">
+          <nuxt-link :to="'article/' + item.id">
+            <h2>{{ item.title }}</h2>
+          </nuxt-link>
+        </div>
+    </v-main>
+  </v-app>
 </template>
 
 <script>
