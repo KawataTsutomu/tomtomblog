@@ -1,7 +1,7 @@
 <template>
   <div>
       <h1>{{ item.title }}</h1>
-      <div class="line-numbers language-js" v-html="$md.render(item.content)"></div>
+      <div class="line-numbers language-js" v-html="$md.render(item.body)"></div>
       <nuxt-link :to="'/'">
         <h2>戻る</h2>
       </nuxt-link>
@@ -23,7 +23,7 @@ export default {
   },
   async asyncData({ params }) {
     const { data } = await axios.get(
-      `https://tomtomblog.microcms.io/api/v1/article/${params.id}`,
+      `https://tomtomblog.microcms.io/api/v1/blog/${params.id}`,
       {
         headers: { "X-MICROCMS-API-KEY": process.env.API_KEY }
       }
